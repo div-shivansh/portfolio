@@ -138,6 +138,11 @@
     @apply bg-background text-foreground;
     cursor: url("/cursor.png") 0 0, auto;
   }
+
+  a, button, [role="button"], input[type="submit"], select {
+    cursor: url("/pointer.png") 0 0, pointer;
+  }
+
   html {
     @apply font-mono;
   }

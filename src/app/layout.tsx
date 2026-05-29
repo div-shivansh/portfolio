@@ -34,7 +34,6 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", londrinaShadow.variable, spaceMono.variable, "font-mono", jetbrainsMono.variable)}
     >
       <body className="min-h-full flex flex-col">
-      <GridBackground />
       <Navbar />
         {children}
         </body>

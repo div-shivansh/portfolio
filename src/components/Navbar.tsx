@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="sticky top-0 w-full h-16 bg-cyan-100 border-b-5 border-b-black text-Black flex items-center justify-around px-4">
+    <nav className="sticky top-0 w-full h-16 bg-cyan-100 border-b-5 border-b-black z-50 text-Black flex items-center justify-around px-4">
         <Link href="/" className="text-3xl font-bold font-londrina tracking-wider">Shivansh&apos;s</Link>
         <div className="space-x-4">
             <a href="#" className="hover:text-gray-400">Home</a>

@@ -18,7 +18,7 @@ const GridBackground: React.FC = () => {
   };
 
   return (
-    <div style={gridStyle} aria-hidden="true" />
+    <div style={gridStyle} aria-hidden="true" className="absolute inset-0" />
   )}
 
 export default GridBackground;
