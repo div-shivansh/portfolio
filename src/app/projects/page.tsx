@@ -38,7 +38,7 @@ const ComingSoon = () => {
                 />
 
                 {/* 2. Reduced margins around the icon */}
-                <div className="mt-4 mb-4 p-4 bg-yellow-300 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rotate-[3deg]">
+                <div className="mt-4 mb-4 p-4 bg-yellow-300 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rotate-3">
                     <Hammer size={40} className="text-black" />
                 </div>
 
@@ -85,7 +85,7 @@ const ComingSoon = () => {
                         className="fixed bottom-8 right-8 z-50 flex items-center gap-4 bg-yellow-300 border-4 border-black p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
                     >
                         <div className="bg-emerald-400 border-2 border-black rounded-full p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                            <Check size={20} className="text-black stroke-[3]" />
+                            <Check size={20} className="text-black stroke-3" />
                         </div>
                         <span className="font-space font-bold text-lg text-black pr-4">
                             You are on the list!

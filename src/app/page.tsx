@@ -5,10 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import ImageCard from '@/components/ui/image-card'
 import { Button } from '@/components/ui/button' // Adjust path based on your shadcn setup
 import Link from 'next/link'
-import { Send, Linkedin, Mail, MapPin, MessageSquare } from 'lucide-react'
+import { Send, MapPin, } from 'lucide-react'
 import NeoPatternBg from '@/components/NeoPatternBg'
 import GridBackground from '@/components/GridBackground'
-import { Card } from '@/components/ui/card'
 import Image from 'next/image'
 
 // The roles that will cycle through
@@ -35,7 +34,8 @@ const SERVICES = [
     ],
     cta: 'Get a Free Quote →',
     icon: '/building.svg',
-    bgColor: 'bg-cyan-300' // Distinct neobrutalist colors for each
+    bgColor: 'bg-cyan-300',
+    message: "Hi Shivansh! I am interested in getting a custom Business Website built. Can we discuss the details and get a quote?"
   },
   {
     id: 'ecommerce',
@@ -52,7 +52,8 @@ const SERVICES = [
     ],
     cta: 'Start Selling Online →',
     icon: '/shopping.svg',
-    bgColor: 'bg-rose-300'
+    bgColor: 'bg-rose-300',
+    message: "Hi Shivansh! I need an E-Commerce Store to sell my products online. Let's chat about the requirements."
   },
   {
     id: 'saas',
@@ -69,7 +70,8 @@ const SERVICES = [
     ],
     cta: 'Discuss Your Idea →',
     icon: '/layout.svg',
-    bgColor: 'bg-violet-300'
+    bgColor: 'bg-violet-300',
+    message: "Hi Shivansh! I have an idea for a custom SaaS / Web App and need a full-stack developer to build it. When are you available to talk?"
   },
   {
     id: 'portfolio',
@@ -86,7 +88,8 @@ const SERVICES = [
     ],
     cta: 'Build My Brand →',
     icon: '/pallet.svg',
-    bgColor: 'bg-emerald-300'
+    bgColor: 'bg-emerald-300',
+    message: "Hi Shivansh! I'm looking to build a personal Portfolio/Brand website to showcase my work. Can you help me out?"
   }
 ]
 
@@ -99,14 +102,14 @@ const containerVariants = {
   }
 }
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 100, damping: 12 }
-  }
-}
+// const cardVariants = {
+//   hidden: { opacity: 0, y: 50 },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     transition: { type: "spring", stiffness: 100, damping: 12 }
+//   }
+// }
 
 const Hero = () => {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -117,11 +120,35 @@ const Hero = () => {
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
 
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate form submission
-    setTimeout(() => setIsSubmitting(false), 1500);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    formData.append("access_key", "8835ab1d-43f6-4fad-be6c-a2af2e62b770");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      })
+      
+      const data = await response.json()
+
+      if (data.success) {
+        alert("Message sent successfully!");
+        form.reset();
+      } else {
+        console.error("Form submission error:", data);
+        alert("There was an error sending your message. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Cycle through the roles every 3 seconds
@@ -276,7 +303,7 @@ const Hero = () => {
             <span className="mb-4 px-4 py-1.5 bg-black text-white font-bold text-xs sm:text-sm uppercase tracking-widest border-2 border-black">
               WHAT I OFFER
             </span>
-            <h2 className="text-3xl sm:text-5xl md:text-7xl font-londrina tracking-wide text-black mb-6 bg-white inline-block px-6 py-2 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-[-1deg]">
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-londrina tracking-wide text-black mb-6 bg-white inline-block px-6 py-2 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-1">
               Services Built Around Your Goals
             </h2>
             <p className="text-sm sm:text-xl max-w-3xl font-space font-medium text-black bg-white p-4 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
@@ -342,11 +369,16 @@ const Hero = () => {
 
                   {/* CTA Button */}
                   <Button
+                    asChild
                     variant="default"
                     size="lg"
                     className={`w-full text-sm sm:text-lg py-6 bg-white hover:bg-black/50 hover:text-white transition-colors`}
                   >
+                    <Link href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(service.message)}`}
+                    target="_blank" rel="noopener noreferrer"
+                    >
                     {service.cta}
+                    </Link>
                   </Button>
                 </div>
 
@@ -370,7 +402,7 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="mb-6 px-4 py-1.5 bg-yellow-300 border-4 border-black font-bold text-base sm:text-lg uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-[-2deg]"
+                className="mb-6 px-4 py-1.5 bg-yellow-300 border-4 border-black font-bold text-base sm:text-lg uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -rotate-2"
               >
                 Get In Touch
               </motion.div>
@@ -383,7 +415,7 @@ const Hero = () => {
                 className="text-5xl sm:text-7xl md:text-8xl font-londrina tracking-wide text-white drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] mb-8 leading-none"
               >
                 LET&apos;S BUILD <br />
-                <span className="text-black bg-white px-2 mt-2 inline-block border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-[1deg]">
+                <span className="text-black bg-white px-2 mt-2 inline-block border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-1">
                   SOMETHING.
                 </span>
               </motion.h2>
@@ -444,6 +476,7 @@ const Hero = () => {
                   <input
                     type="text"
                     id="name"
+                    name="name"
                     required
                     placeholder="John Doe"
                     className="w-full p-4 border-4 border-black bg-cyan-100 font-space text-lg text-black placeholder:text-black/50 focus:outline-none focus:bg-yellow-200 transition-colors"
@@ -457,6 +490,7 @@ const Hero = () => {
                   <input
                     type="email"
                     id="email"
+                    name="email"
                     required
                     placeholder="john@example.com"
                     className="w-full p-4 border-4 border-black bg-cyan-100 font-space text-lg text-black placeholder:text-black/50 focus:outline-none focus:bg-yellow-200 transition-colors"
@@ -469,6 +503,7 @@ const Hero = () => {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
                     required
                     rows={4}
                     placeholder="Tell me about your project..."
