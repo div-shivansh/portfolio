@@ -55,7 +55,7 @@ export default async function Image() {
               </div>
             </div>
 
-           {/* Bottom Bar: Tech Stack & CTA */}
+            {/* Bottom Bar: Tech Stack & CTA */}
             <div tw="flex w-full justify-between items-end mt-auto">
               
               <div tw="flex gap-4">
@@ -73,6 +73,7 @@ export default async function Image() {
               </div>
 
             </div>
+          </div>
 
           {/* RIGHT IMAGE AREA: Separated by a thick black line */}
          {/* RIGHT IMAGE AREA: Separated by a thick black line */}
