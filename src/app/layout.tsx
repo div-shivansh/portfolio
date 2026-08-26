@@ -56,21 +56,12 @@ export const metadata: Metadata = {
     title: 'Shivansh Tiwari | Full Stack Developer ',
     description: 'Building high-performance web applications and integrating AI into scalable SaaS platforms.',
     siteName: 'Shivansh Tiwari Portfolio',
-    images: [
-      {
-        url: 'https://shivanshtiwari.in/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Shivansh Tiwari - Full Stack Developer',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Shivansh Tiwari | Full Stack Developer',
     description: 'Building high-performance web applications and integrating AI into scalable SaaS platforms.',
     creator: '@div_shiansh',
-    images: ['https://shivanshtiwari.in/og-image.png'],
   },
   alternates: {
     canonical: 'https://shivanshtiwari.in',
@@ -88,7 +79,7 @@ export default function RootLayout({
     name: 'Shivansh Tiwari',
     alternateName: 'div-shivansh',
     url: 'https://shivanshtiwari.in',
-    image: 'https://shivanshtiwari.in/og-image.png',
+    image: 'https://shivanshtiwari.in/opengraph-image',
     jobTitle: 'Full Stack Developer',
     worksFor: {
       '@type': 'Organization',
