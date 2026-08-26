@@ -55,13 +55,24 @@ export default async function Image() {
               </div>
             </div>
 
-            {/* Bottom Bar: Tech Stack Pills */}
-            <div tw="flex gap-4 mt-auto">
-              <span tw="px-4 py-2 bg-black text-white border-[4px] border-black text-2xl font-bold">Next.js</span>
-              <span tw="px-4 py-2 bg-black text-white border-[4px] border-black text-2xl font-bold">React</span>
-              <span tw="px-4 py-2 bg-black text-white border-[4px] border-black text-2xl font-bold">MongoDB</span>
+           {/* Bottom Bar: Tech Stack & CTA */}
+            <div tw="flex w-full justify-between items-end mt-auto">
+              
+              <div tw="flex gap-4">
+                <span tw="px-4 py-2 bg-black text-white border-[4px] border-black text-2xl font-bold">Next.js</span>
+                <span tw="px-4 py-2 bg-black text-white border-[4px] border-black text-2xl font-bold">React</span>
+                <span tw="px-4 py-2 bg-black text-white border-[4px] border-black text-2xl font-bold">Gen AI</span>
+              </div>
+
+              {/* The Call To Action (CTA) Button */}
+              <div 
+                tw="flex px-6 py-3 bg-emerald-400 border-[6px] border-black text-3xl font-bold text-black"
+                style={{ boxShadow: '6px 6px 0px 0px rgba(0,0,0,1)' }}
+              >
+                View Projects →
+              </div>
+
             </div>
-          </div>
 
           {/* RIGHT IMAGE AREA: Separated by a thick black line */}
          {/* RIGHT IMAGE AREA: Separated by a thick black line */}

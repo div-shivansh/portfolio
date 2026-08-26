@@ -21,10 +21,10 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://shivanshtiwari.in"),
   title: {
-    default: 'Shivansh Tiwari | Full Stack Developer & AI Integration Engineer',
+    default: 'Shivansh Tiwari | Full Stack & AI Developer',
     template: '%s | Shivansh Tiwari',
   },
-  description: "Official portfolio of Shivansh Tiwari. Full Stack Developer specializing in MERN stack, Next.js, React, and building scalable SaaS applications with AI integration.",
+  description: "Portfolio of Shivansh Tiwari, a Full Stack Developer building high-performance Next.js & MERN stack web apps with Generative AI integration.",
   keywords: [
     "Shivansh Tiwari",
     "Shivansh Tiwari Portfolio",
@@ -54,13 +54,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://shivanshtiwari.in',
     title: 'Shivansh Tiwari | Full Stack Developer ',
-    description: 'Building high-performance web applications and integrating AI into scalable SaaS platforms.',
+    description: 'Portfolio of Shivansh Tiwari, a Full Stack Developer building high-performance Next.js & MERN stack web apps with Generative AI integration.',
     siteName: 'Shivansh Tiwari Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Shivansh Tiwari | Full Stack Developer',
-    description: 'Building high-performance web applications and integrating AI into scalable SaaS platforms.',
+    description: 'Portfolio of Shivansh Tiwari, a Full Stack Developer building high-performance Next.js & MERN stack web apps with Generative AI integration.',
     creator: '@div_shiansh',
   },
   alternates: {
