@@ -73,35 +73,53 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Shivansh Tiwari',
-    alternateName: 'div-shivansh',
-    url: 'https://shivanshtiwari.in',
-    image: 'https://shivanshtiwari.in/opengraph-image',
-    jobTitle: 'Full Stack Developer',
-    worksFor: {
-      '@type': 'Organization',
-      name: 'Freelance / Software Engineering',
+ const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Shivansh Tiwari',
+      alternateName: 'div-shivansh',
+      url: 'https://shivanshtiwari.in',
+      image: 'https://shivanshtiwari.in/opengraph-image',
+      jobTitle: 'Full Stack Developer',
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Freelance / Software Engineering',
+      },
+      homeLocation: {
+        '@type': 'Place',
+        name: 'Delhi, India'
+      },
+      alumniOf: {
+        '@type': 'CollegeOrUniversity',
+        name: 'Indian Institute of Technology Madras',
+        alternateName: 'IIT Madras'
+      },
+      sameAs: [
+        'https://github.com/div-shivansh',
+        'https://www.linkedin.com/in/shivansh-tiwari03/',
+        'https://x.com/div_shiansh',
+        'https://www.instagram.com/div.shivansh/',
+      ],
+      knowsAbout: [
+        'Web Development',
+        'Full Stack Development',
+        'MERN Stack',
+        'Next.js',
+        'React',
+        'Node.js',
+        'Generative AI Integration',
+        'Data Science',
+      ], 
     },
-    sameAs: [
-      'https://github.com/div-shivansh',
-      'https://www.linkedin.com/in/shivansh-tiwari03/',
-      'https://x.com/div_shiansh',
-      'https://www.instagram.com/div.shivansh/',
-    ],
-    knowsAbout: [
-      'Web Development',
-      'Full Stack Development',
-      'MERN Stack',
-      'Next.js',
-      'React',
-      'Node.js',
-      'Generative AI Integration',
-      'Data Science',
-    ], 
-  }
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Shivansh Tiwari',
+      alternateName: 'Shivansh Tiwari Portfolio',
+      url: 'https://shivanshtiwari.in'
+    }
+  ]
   return (
     <html
       lang="en"
