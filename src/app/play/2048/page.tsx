@@ -19,13 +19,14 @@ const TILE_COLORS: Record<number, string> = {
   2048: 'bg-black text-yellow-300',
 }
 
+// 1. TS Fix: Made boolean flags strictly required to satisfy the compiler
 type Tile = {
   id: string
   val: number
   r: number
   c: number
-  isNew?: boolean
-  isConsumed?: boolean 
+  isNew: boolean
+  isConsumed: boolean 
 }
 
 export default function Game2048() {
@@ -33,23 +34,33 @@ export default function Game2048() {
   const [score, setScore] = useState(0)
   const [gameOver, setGameOver] = useState(false)
   const [gameWon, setGameWon] = useState(false)
+  const [personalBests, setPersonalBests] = useState<number[]>([])
+  
+  // Mobile swipe state
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null)
 
+  // 2. React Linter Fix: Wrapped in a timeout to prevent synchronous cascading renders
   useEffect(() => {
-    startNewGame()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const savedScores = localStorage.getItem('2048-scores')
+    if (savedScores) {
+      setTimeout(() => {
+        setPersonalBests(JSON.parse(savedScores))
+      }, 0)
+    }
   }, [])
 
-  // Cleanup consumed tiles AFTER the slide animation completes
-  useEffect(() => {
-    if (tiles.some((t) => t.isConsumed)) {
-      const timer = setTimeout(() => {
-        setTiles((prev) => prev.filter((t) => !t.isConsumed))
-      }, 200) // Slightly increased to allow full slide
-      return () => clearTimeout(timer)
-    }
-  }, [tiles])
+  // Safely wrapped in useCallback so it can be passed as a dependency
+  const saveScore = useCallback((finalScore: number) => {
+    if (finalScore === 0) return
+    setPersonalBests(prev => {
+      const newScores = [...prev, finalScore].sort((a, b) => b - a).slice(0, 5)
+      localStorage.setItem('2048-scores', JSON.stringify(newScores))
+      return newScores
+    })
+  }, [])
 
-  const createRandomTile = (currentTiles: Tile[]): Tile | null => {
+  // 3. Hoisting Fix: Declaring dependencies BEFORE they are used
+  const createRandomTile = useCallback((currentTiles: Tile[]): Tile | null => {
     const emptyCells = []
     for (let r = 0; r < 4; r++) {
       for (let c = 0; c < 4; c++) {
@@ -66,19 +77,11 @@ export default function Game2048() {
       r,
       c,
       isNew: true,
+      isConsumed: false // Strictly defined
     }
-  }
+  }, [])
 
-  const startNewGame = () => {
-    const t1 = createRandomTile([])
-    const t2 = createRandomTile(t1 ? [t1] : [])
-    setTiles([t1, t2].filter(Boolean) as Tile[])
-    setScore(0)
-    setGameOver(false)
-    setGameWon(false)
-  }
-
-  const checkGameOver = (currentTiles: Tile[]) => {
+  const checkGameOver = useCallback((currentTiles: Tile[], currentScore: number) => {
     const activeTiles = currentTiles.filter((t) => !t.isConsumed)
     if (activeTiles.length < 16) return
 
@@ -95,8 +98,37 @@ export default function Game2048() {
         }
       }
     }
-    if (!canMove) setGameOver(true)
-  }
+    if (!canMove) {
+      setGameOver(true)
+      saveScore(currentScore) // Save score when game ends
+    }
+  }, [saveScore])
+
+  const startNewGame = useCallback(() => {
+    const t1 = createRandomTile([])
+    const t2 = createRandomTile(t1 ? [t1] : [])
+    setTiles([t1, t2].filter(Boolean) as Tile[])
+    setScore(0)
+    setGameOver(false)
+    setGameWon(false)
+  }, [createRandomTile])
+
+  // Call startNewGame safely after it is declared
+  useEffect(() => {
+    const initTimer = setTimeout(() => {
+        startNewGame()
+    }, 0)
+    return () => clearTimeout(initTimer)
+  }, [startNewGame])
+
+  useEffect(() => {
+    if (tiles.some((t) => t.isConsumed)) {
+      const timer = setTimeout(() => {
+        setTiles((prev) => prev.filter((t) => !t.isConsumed))
+      }, 200) 
+      return () => clearTimeout(timer)
+    }
+  }, [tiles])
 
   const move = useCallback(
     (dir: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') => {
@@ -132,17 +164,19 @@ export default function Game2048() {
 
           if (tileAtNext) {
             if (tileAtNext.val === tile.val && !mergedIds.has(tileAtNext.id)) {
-              // 1. Correctly update the moving tile's target coordinates
               nextR = testR
               nextC = testC
-              tile.isConsumed = true // The moving tile gets consumed
+              tile.isConsumed = true 
               
-              // 2. The stationary tile upgrades
               tileAtNext.val *= 2
               newScore += tileAtNext.val
               mergedIds.add(tileAtNext.id)
               moved = true
-              if (tileAtNext.val === 2048) setGameWon(true)
+              
+              if (tileAtNext.val === 2048) {
+                setGameWon(true)
+                saveScore(newScore + tileAtNext.val) // Save score on win
+              }
             }
             break
           } else {
@@ -151,7 +185,6 @@ export default function Game2048() {
           }
         }
 
-        // 3. Properly assign the new coordinates outside the loop
         if (tile.r !== nextR || tile.c !== nextC) {
           tile.r = nextR
           tile.c = nextC
@@ -165,12 +198,13 @@ export default function Game2048() {
 
         setTiles(nextTiles)
         setScore(newScore)
-        checkGameOver(nextTiles)
+        checkGameOver(nextTiles, newScore)
       }
     },
-    [tiles, score, gameOver, gameWon]
+    [tiles, score, gameOver, gameWon, checkGameOver, createRandomTile, saveScore]
   )
 
+  // 4. Keyboard Controls
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
@@ -187,6 +221,31 @@ export default function Game2048() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [move])
 
+  // 5. Mobile Touch Controls
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY })
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStart) return
+    const touchEndX = e.changedTouches[0].clientX
+    const touchEndY = e.changedTouches[0].clientY
+    const dx = touchEndX - touchStart.x
+    const dy = touchEndY - touchStart.y
+    const absDx = Math.abs(dx)
+    const absDy = Math.abs(dy)
+
+    // Minimum distance threshold to register as a swipe (30px)
+    if (Math.max(absDx, absDy) > 30) {
+      if (absDx > absDy) {
+        move(dx > 0 ? 'RIGHT' : 'LEFT')
+      } else {
+        move(dy > 0 ? 'DOWN' : 'UP')
+      }
+    }
+    setTouchStart(null)
+  }
+
   return (
     <div className="min-h-screen bg-violet-400 font-space flex flex-col items-center justify-center p-4">
       <div className="flex justify-between items-end w-full max-w-md mb-8">
@@ -199,14 +258,17 @@ export default function Game2048() {
           </Link>
         </div>
 
-        <div className="bg-white border-4 border-black p-3 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-center min-w-[100px]">
+        <div className="bg-white border-4 border-black p-3 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-center min-w-25">
           <p className="text-xs font-bold uppercase tracking-widest text-black/60">Score</p>
           <p className="text-2xl font-bold text-black leading-none">{score}</p>
         </div>
       </div>
 
-      <div className="relative bg-black p-3 border-8 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]">
-        
+      <div 
+        className="relative bg-black p-3 border-8 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] touch-none select-none"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <div className="grid grid-cols-4 grid-rows-4 gap-3 bg-stone-300">
           {Array(16).fill(0).map((_, i) => (
             <div key={i} className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-stone-400/30 border-4 border-black/10" />
@@ -228,7 +290,6 @@ export default function Game2048() {
                   type: 'spring',
                   stiffness: 400,
                   damping: 30,
-                  // 4. Delay the fade-out so the physical slide is visible first
                   opacity: { delay: tile.isConsumed ? 0.08 : 0, duration: 0.15 }, 
                 }}
                 className={`flex items-center justify-center text-3xl sm:text-4xl font-londrina tracking-wider border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${
@@ -237,7 +298,6 @@ export default function Game2048() {
                 style={{
                   gridRow: tile.r + 1, 
                   gridColumn: tile.c + 1,
-                  // 5. Place the sliding merged tile underneath the target tile
                   zIndex: tile.isConsumed ? 0 : 10,
                 }}
               >
@@ -267,11 +327,26 @@ export default function Game2048() {
         )}
       </div>
 
-      <div className="mt-12 text-center bg-white border-4 border-black p-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rotate-1">
-        <p className="font-space font-bold text-black uppercase tracking-widest text-sm">
-          Use <span className="bg-yellow-300 px-2 py-1 border-2 border-black mx-1">Arrow Keys</span> to play
+      <div className="mt-8 text-center bg-white border-4 border-black p-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rotate-1">
+        <p className="font-space font-bold text-black uppercase tracking-widest text-nowrap text-xs sm:text-sm"><span className='md:inline hidden'>Use</span> <span className="bg-yellow-300 md:inline hidden px-2 py-1 border-2 border-black">Arrow Keys</span> <span className='md:inline hidden'>or</span> <span className="bg-cyan-300 px-2 py-1 border-2 border-black ">Swipe</span> to play
         </p>
       </div>
+
+      {personalBests.length > 0 && (
+        <div className="mt-8 w-full max-w-md bg-white border-4 border-black p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <h3 className="text-2xl font-londrina text-black mb-4 uppercase tracking-wider border-b-4 border-black pb-2">
+            Local Top Scores
+          </h3>
+          <ul className="flex flex-col gap-2 font-space font-bold text-lg">
+            {personalBests.map((s, index) => (
+              <li key={index} className="flex justify-between items-center bg-cyan-100 p-2 border-2 border-black">
+                <span className="text-black/50">#{index + 1}</span>
+                <span className="text-black">{s} pts</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }
