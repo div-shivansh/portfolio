@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import GridBackground from "@/components/GridBackground";
 import Navbar from "@/components/Navbar";
+import { Analytics } from "@vercel/analytics/next";
 
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
 
@@ -133,6 +134,7 @@ export default function RootLayout({
         <GridBackground />
         <Navbar />
         {children}
+        <Analytics />
       </body>
     </html>
   );
