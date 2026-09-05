@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     title: '2048 Neobrutalist Edition | Shivansh Tiwari',
     description: 'Play a custom, Neobrutalist-styled version of 2048. Built from scratch with React, Next.js, and Framer Motion.',
     url: 'https://shivanshtiwari.in/play/2048',
+  },
+  alternates: {
+    canonical: 'https://shivanshtiwari.in/play/2048',
   }
 }
 
