@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Hammer, Bell, Check } from 'lucide-react'
+import { Hammer, Bell, Check, Gamepad2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import NeoPatternBg from '@/components/NeoPatternBg'
+import Link from 'next/link'
 
 const ComingSoon = () => {
     const [email, setEmail] = useState('')
@@ -25,7 +26,6 @@ const ComingSoon = () => {
 
             <NeoPatternBg pattern="stripes" bgColorClass="bg-violet-400" />
 
-            {/* 1. Reduced p-8 md:p-16 to p-6 md:p-10 to shrink the overall height */}
             <motion.div
                 initial={{ opacity: 0, y: 50, rotate: -2 }}
                 animate={{ opacity: 1, y: 0, rotate: 0 }}
@@ -37,24 +37,20 @@ const ComingSoon = () => {
                     style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000 0, #000 10px, transparent 10px, transparent 20px)' }}
                 />
 
-                {/* 2. Reduced margins around the icon */}
                 <div className="mt-4 mb-4 p-4 bg-yellow-300 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rotate-3">
                     <Hammer size={40} className="text-black" />
                 </div>
 
-                {/* 3. Shrunk text-6xl to 5xl so it fits better on small laptops */}
                 <h1 className="text-5xl md:text-7xl font-londrina tracking-wide text-black mb-4 leading-none">
                     PROJECTS DROPPING <br />
                     <span className="text-rose-500 underline decoration-8 underline-offset-8">SOON</span>
                 </h1>
 
-                {/* 4. Reduced bottom margin from mb-12 to mb-8 */}
                 <p className="text-lg md:text-xl font-space font-medium text-black mb-8 max-w-xl">
                     I am currently in the lab crafting some high-performance SaaS tools and web apps. Drop your email below to get early access when we go live.
                 </p>
 
-                {/* 5. Removed the bottom gap previously used for the inline message */}
-                <form onSubmit={handleSubmit} className="w-full max-w-xl flex flex-col sm:flex-row gap-4">
+                <form onSubmit={handleSubmit} className="w-full max-w-xl flex flex-col sm:flex-row gap-4 mb-8">
                     <input
                         type="email"
                         required
@@ -72,9 +68,22 @@ const ComingSoon = () => {
                         <Bell size={24} />
                     </Button>
                 </form>
+
+                {/* The Arcade Cross-Link to fix the Orphan Page issue */}
+                <div className="w-full max-w-xl pt-8 border-t-4 border-dashed border-black/30 flex flex-col items-center gap-4">
+                    <p className="font-space font-bold text-black/60 uppercase tracking-widest text-sm">
+                        Bored waiting? Kill some time.
+                    </p>
+                    <Link 
+                        href="/play/2048"
+                        className="flex items-center gap-3 bg-rose-400 text-black border-4 border-black px-8 py-4 font-bold text-xl uppercase tracking-widest hover:-translate-y-1 hover:-translate-x-1 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all active:translate-x-0 active:translate-y-0 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] -rotate-1"
+                    >
+                        <Gamepad2 size={28} strokeWidth={2.5} />
+                        Play 2048
+                    </Link>
+                </div>
             </motion.div>
 
-            {/* 6. The Neobrutalist Toast Notification */}
             <AnimatePresence>
                 {showToast && (
                     <motion.div
