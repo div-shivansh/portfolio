@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Londrina_Shadow, Space_Mono, JetBrains_Mono } from "next/font/google";
+import { Londrina_Shadow, Space_Mono, JetBrains_Mono, Geist, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import GridBackground from "@/components/GridBackground";
@@ -18,6 +18,14 @@ const spaceMono = Space_Mono({
   subsets: ["latin"],
   variable: "--font-space"
 });
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist"
+})
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk"
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shivanshtiwari.in"),
@@ -74,7 +82,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
- const jsonLd = [
+  const jsonLd = [
     {
       '@context': 'https://schema.org',
       '@type': 'Person',
@@ -111,7 +119,7 @@ export default function RootLayout({
         'Node.js',
         'Generative AI Integration',
         'Data Science',
-      ], 
+      ],
     },
     {
       '@context': 'https://schema.org',
@@ -124,9 +132,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", londrinaShadow.variable, spaceMono.variable, "font-mono", jetbrainsMono.variable)}
+      className={cn("h-full", "antialiased", londrinaShadow.variable, spaceMono.variable, jetbrainsMono.variable, geist.variable, spaceGrotesk.variable)}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-[#F9F5F2] text-black">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
