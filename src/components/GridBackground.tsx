@@ -3,10 +3,10 @@ import React from 'react';
 const GridBackground: React.FC = () => {
   const gridStyle: React.CSSProperties = {
     backgroundImage: `
-      linear-gradient(90deg, #A1A1A1 1.5px, transparent 1.5px),
-      linear-gradient(0deg, #A1A1A1 1.5px, #D7D7F7 1.5px)
+      linear-gradient(90deg, #e0e0de 1px, transparent 1px),
+      linear-gradient(0deg, #e0e0de 1px, #f9f5f2 1px)
     `,
-    backgroundSize: '80px 80px', 
+    backgroundSize: '40px 40px', 
     backgroundPosition: 'center',
     width: '100%',
     height: '100%',

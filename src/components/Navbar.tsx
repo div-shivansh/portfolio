@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   return (
-    <nav className="flex items-stretch justify-between border-y-3 border-black bg-[#fdfbf7] h-16 md:h20 font-geist px-2 sticky top-0 z-50">
+    <nav className="flex items-stretch justify-between border-y-3 border-black bg-[#f9f5f2] h-16 md:h20 font-geist px-2 sticky top-0 z-50">
       <div className="flex items-stretch justify-between w-full h-full container mx-auto border-black border-x-3">
 
 

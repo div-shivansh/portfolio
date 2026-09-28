@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Londrina_Shadow, Space_Mono, JetBrains_Mono, Geist, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import GridBackground from "@/components/GridBackground";
 import Navbar from "@/components/Navbar";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -139,7 +138,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <GridBackground />
         <Navbar />
         {children}
         <Analytics />

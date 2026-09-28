@@ -1,13 +1,12 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import ImageCard from '@/components/ui/image-card'
+import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button' // Adjust path based on your shadcn setup
 import Link from 'next/link'
 import { Send, MapPin, } from 'lucide-react'
 import NeoPatternBg from '@/components/NeoPatternBg'
-import GridBackground from '@/components/GridBackground'
+import HeroSection from '@/components/HeroSection'
 import Image from 'next/image'
 
 // The roles that will cycle through
@@ -17,6 +16,11 @@ const ROLES = [
   "MERN Stack Engineer",
   "React & Next.js Dev"
 ];
+
+  const whatsappNumber = "919999075126"
+  const whatsappMessage = encodeURIComponent("Hello Shivansh, I came across your portfolio and would like to connect with you!")
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
+
 
 const SERVICES = [
   {
@@ -115,11 +119,6 @@ const Hero = () => {
   const [roleIndex, setRoleIndex] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const whatsappNumber = "919999075126"
-  const whatsappMessage = encodeURIComponent("Hello Shivansh, I came across your portfolio and would like to connect with you!")
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
-
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -163,135 +162,8 @@ const Hero = () => {
   return (
     // font-sans maps to Space Grotesk based on our previous layout setup
     <main className='relative font-space min-h-[calc(100vh-4rem)] overflow-hidden'>
-      <section className='relative w-full min-h-[calc(100vh-4rem)] overflow-hidden'>
-        <GridBackground />
-        <div className='container mx-auto px-4.5 grid h-[calc(100vh-4rem)] lg:grid-cols-2 gap-12 items-center'>
-
-          {/* LEFT COLUMN: Text & CTAs */}
-          <div className='flex flex-col items-center lg:items-start z-10'>
-
-            {/* Small intro badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-6 px-4 py-1.5 bg-yellow-300 border-2 border-black font-bold text-sm uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-            >
-              Available for Work
-            </motion.div>
-
-            {/* Main Heading (Londrina Shadow) */}
-            <motion.h1
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className='text-6xl sm:text-7xl md:text-8xl text-wrap font-londrina tracking-wide text-stone-900 leading-none mb-4'
-            >
-              Hi, I&apos;m <span className="text-cyan-800">Shivansh</span>
-            </motion.h1>
-
-            {/* Animated Role Text */}
-            <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            // 1. Changed to flex-col on mobile, flex-row on md screens
-            // 2. Added a gap for mobile stacking
-            // 3. Removed fixed h-12 from the parent container
-            className='flex flex-col md:flex-row items-start md:items-center mb-6 text-2xl md:text-3xl font-bold text-stone-800 gap-2 md:gap-0'
-          >
-            <span className="md:mr-2 whitespace-nowrap">I am a</span>
-            
-            {/* 4. Added a fixed height specifically to the grid (h-10 md:h-12) 
-                   so the vertical slide animation doesn't clip or jump */}
-            <div className="grid overflow-hidden h-10 md:h-12 items-center w-full md:flex-1">
-              <AnimatePresence>
-                <motion.span
-                  key={roleIndex}
-                  initial={{ y: 40, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -40, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="col-start-1 row-start-1 whitespace-nowrap text-red-800 underline decoration-4 underline-offset-4"
-                >
-                  {ROLES[roleIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-          </motion.div>
-
-            {/* Description (Space Grotesk) */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className='text-lg md:text-xl max-w-lg mb-8 leading-relaxed font-medium text-stone-700'
-            >
-              I build high-performance web applications and integrate AI into scalable SaaS platforms. Currently studying Data Science at IIT Madras.
-            </motion.p>
-
-            {/* Call to Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex flex-wrap gap-4"
-            >
-              <Button asChild variant="default" size="lg" className="text-lg">
-                <Link href="/projects" className='font-semibold'>View My Projects</Link>
-              </Button>
-              <Button asChild variant="neutral" size="lg" className="text-lg bg-white">
-                <Link href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                  Get In Touch
-                </Link>
-              </Button>
-            </motion.div>
-          </div>
-
-          {/* RIGHT COLUMN: Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{
-              duration: 0.6,
-              delay: 0.3,
-              type: "spring",
-              stiffness: 100
-            }}
-            className='lg:flex hidden justify-end z-10'
-          >
-            {/* Wrapping the ImageCard in a div to add a secondary rotation for maximum Neobrutalism */}
-            <div className="rotate-3 hover:rotate-0 transition-transform duration-300">
-              <ImageCard
-                imageUrl='/Shivansh_portrait.jpeg'
-                caption='Coding the future.'
-                className='size-80 md:size-96 p-2 bg-red-800 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]'
-              />
-            </div>
-          </motion.div>
-        </div>
-      </section >
-      {/* <hr className='border-3 border-t-black' />
-      <section className='relative px-4.5 min-h-[calc(100vh-4rem)] w-full overflow-hidden'>
-        <NeoPatternBg pattern='dots' bgColorClass='bg-yellow-500' />
-        <div className='container mx-auto'>
-        <div className="grid grid-cols-4 gap-6 min-h-[calc(100vh-4rem)] items-center py-12">
-            <Card className="h-full p-2">
-              <Image src='/building.svg' alt="building" width={40} height={40} />
-            </Card>
-            <Card className="h-full p-2">
-              <Image src='/shopping.svg' alt="shopping" width={40} height={40} />
-            </Card>
-            <Card className="h-full p-2">
-              <Image src='/layout.svg' alt="layout" width={40} height={40} />
-            </Card>
-            <Card className="h-full p-2">
-              <Image src='/character.svg' alt="character" width={40} height={40} />
-            </Card>
-        </div>
-        </div>
-      </section> */}
-      <section id="services" className='relative w-full min-h-screen overflow-hidden border-t-5 border-black'>
+      <HeroSection />
+      <section id="services" className='relative w-full min-h-screen overflow-hidden'>
 
         {/* Background Pattern */}
         <NeoPatternBg pattern='dots' bgColorClass='bg-yellow-400' />
