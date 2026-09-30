@@ -131,9 +131,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", londrinaShadow.variable, spaceMono.variable, jetbrainsMono.variable, geist.variable, spaceGrotesk.variable)}
+      data-scroll-behavior="smooth"
+      className={cn("h-full scroll-smooth scroll-pt-16", "antialiased", londrinaShadow.variable, spaceMono.variable, jetbrainsMono.variable, geist.variable, spaceGrotesk.variable)}
     >
-      <body className="min-h-full flex flex-col bg-[#F9F5F2] text-black">
+      <body className="min-h-full flex flex-col bg-[#F9F5F2] text-black ">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

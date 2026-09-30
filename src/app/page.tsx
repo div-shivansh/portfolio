@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { Send, MapPin, } from 'lucide-react'
 import NeoPatternBg from '@/components/NeoPatternBg'
 import HeroSection from '@/components/HeroSection'
+import ServiceSection from '@/components/ServiceSection'
 import Image from 'next/image'
 
 // The roles that will cycle through
@@ -163,14 +164,13 @@ const Hero = () => {
     // font-sans maps to Space Grotesk based on our previous layout setup
     <main className='relative font-space min-h-[calc(100vh-4rem)] overflow-hidden'>
       <HeroSection />
-      <section id="services" className='relative w-full min-h-screen overflow-hidden'>
+      <ServiceSection />
+      {/* <section id="services" className='relative w-full min-h-screen overflow-hidden'>
 
-        {/* Background Pattern */}
         <NeoPatternBg pattern='dots' bgColorClass='bg-yellow-400' />
 
         <div className='container mx-auto px-4 py-20 relative z-10'>
 
-          {/* SECTION HEADER */}
           <div className="flex flex-col items-center text-center mb-16">
             <span className="mb-4 px-4 py-1.5 bg-black text-white font-bold text-xs sm:text-sm uppercase tracking-widest border-2 border-black">
               WHAT I OFFER
@@ -183,7 +183,6 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* BENTO BOX GRID */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -199,7 +198,6 @@ const Hero = () => {
                 className={`flex flex-col border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 transition-all duration-300 ${service.bgColor}`}
               >
 
-                {/* Card Header Area */}
                 <div className="p-6 md:p-8 border-b-4 border-black bg-white/50">
                   <div className="flex justify-between items-start mb-4">
                     <div className="p-2 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-sm">
@@ -217,7 +215,6 @@ const Hero = () => {
                   </h4>
                 </div>
 
-                {/* Card Body Area */}
                 <div className="p-6 md:p-8 flex-1 flex flex-col justify-between font-space text-black">
                   <div>
                     <p className="text-sm sm:text-lg font-medium mb-6 leading-relaxed">
@@ -239,7 +236,6 @@ const Hero = () => {
                     </div>
                   </div>
 
-                  {/* CTA Button */}
                   <Button
                     asChild
                     variant="default"
@@ -259,8 +255,8 @@ const Hero = () => {
           </motion.div>
 
         </div>
-      </section>
-      <section id="contact" className="relative w-full min-h-screen overflow-hidden border-t-8 border-black flex items-center px-1 py-20">
+      </section> */}
+      <section id="contact" className="relative w-full min-h-screen overflow-hidden border-black flex items-center px-1 py-20">
 
         {/* Background: Thick polka dots on a bright pink background */}
         <NeoPatternBg pattern="dots" bgColorClass="bg-pink-400" />
