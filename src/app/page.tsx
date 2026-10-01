@@ -9,6 +9,7 @@ import NeoPatternBg from '@/components/NeoPatternBg'
 import HeroSection from '@/components/HeroSection'
 import ServiceSection from '@/components/ServiceSection'
 import Image from 'next/image'
+import FeaturedProjects from '@/components/FeaturedProjects'
 
 // The roles that will cycle through
 const ROLES = [
@@ -98,24 +99,6 @@ const SERVICES = [
   }
 ]
 
-// 2. Framer Motion container variants for staggered children
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2 }
-  }
-}
-
-// const cardVariants = {
-//   hidden: { opacity: 0, y: 50 },
-//   visible: {
-//     opacity: 1,
-//     y: 0,
-//     transition: { type: "spring", stiffness: 100, damping: 12 }
-//   }
-// }
-
 const Hero = () => {
   const [roleIndex, setRoleIndex] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -165,6 +148,7 @@ const Hero = () => {
     <main className='relative font-space min-h-[calc(100vh-4rem)] overflow-hidden'>
       <HeroSection />
       <ServiceSection />
+      <FeaturedProjects />
       {/* <section id="services" className='relative w-full min-h-screen overflow-hidden'>
 
         <NeoPatternBg pattern='dots' bgColorClass='bg-yellow-400' />
